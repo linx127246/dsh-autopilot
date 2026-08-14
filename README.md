@@ -47,6 +47,34 @@ cp -r skills/find-skills ~/.dsh/skills/
 
 - `docs/2026-02-16-project-autopilot-design.md` — 完整设计文档（含三路红队裁决）
 - `docs/project-autopilot-pressure-scenarios.md` — TDD 压力测试记录（RED 基线 vs GREEN 验证）
+- `docs/AGENTS-md-reference.md` — 工作区 AGENTS.md 参考副本（路径已脱敏为 %USERPROFILE%）
+
+## 灾难恢复指南（DSH 破坏性更新 / 换机器 / 重装系统）
+
+本仓库是整套工作流的"备份箱"。恢复三步：
+
+```bash
+# 1. 克隆仓库
+git clone https://github.com/linx127246/dsh-autopilot.git
+
+# 2. 恢复技能（技能目录路径以新版 DSH 为准，先侦察新目录约定）
+cp -r skills/project-autopilot ~/.dsh/skills/
+cp -r skills/find-skills ~/.dsh/skills/
+
+# 3. 恢复工作区方法论（按 docs/AGENTS-md-reference.md 重建 AGENTS.md，
+#    把 %USERPROFILE% 替换回你的用户目录）
+```
+
+### 恢复后必须适配的 3 处（环境相关）
+
+1. **技能目录路径**：新版 DSH 若改了技能目录约定，先侦察再复制（`~/.dsh/skills` 是当前版本约定）
+2. **npm 缓存路径**：`SKILL.md` 操作层里的 `$env:npm_config_cache = "...\.npm-cache"` 是沙箱环境路径，换环境后改成你机器上可写的目录
+3. **浏览器登录态**：小红书/抖音侦察需要在新环境的自动化浏览器里重新登录一次
+
+### 恢复后建议
+
+- 跑一次项目任务验证技能生效（先小步验证）
+- 技能里"操作层细节"章节如与实际环境不符，顺手更新并 push 回本仓库
 
 ## 开发方法
 
